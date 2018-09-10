@@ -1,0 +1,24 @@
+#服务器配置
+server:
+  port: 8761 #服务端口name
+#配置spring
+spring:
+  paplication:
+    #服务名称（应用注册中心）
+    name: discovery
+#服务器注册发现配置
+eureka:
+  instance:
+    #eureka实例名称
+    hostname: localhost
+  client:
+    #禁止将自己注册到Eureka-server(默认true）
+    register-with-eureka: false
+    #禁止从Eureka-server获取注册信息（默认true)
+    fetch-registry: false
+    service-url:
+       #服务注册中心地址，注册服务和查询服务都依赖这个地址，默认地址：[http://localhost:8761/eureka](http://localhost:8761/eureka) ，可以配置多个地址用逗号分隔
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    #eureka关闭自我保护模式
+    enable-self-preservation: false

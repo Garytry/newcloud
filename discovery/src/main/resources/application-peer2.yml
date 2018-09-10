@@ -1,0 +1,15 @@
+server:
+  port: 8763
+eureka:
+  instance:
+   #服务名称（应用注册中心）
+    hostname: peer2
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #注册到pee1 eureka server
+      defaultZone: http://peer1:8762/eureka/
+spring:
+  application:
+    name: discovery
