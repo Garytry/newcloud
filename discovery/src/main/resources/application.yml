@@ -1,24 +1,24 @@
-#·şÎñÆ÷ÅäÖÃ
+#æœåŠ¡å™¨é…ç½®
 server:
-  port: 8761 #·şÎñ¶Ë¿Úname
-#ÅäÖÃspring
+  port: 8761 #æœåŠ¡ç«¯å£name
+#é…ç½®spring
 spring:
   paplication:
-    #·şÎñÃû³Æ£¨Ó¦ÓÃ×¢²áÖĞĞÄ£©
+    #æœåŠ¡åç§°ï¼ˆåº”ç”¨æ³¨å†Œä¸­å¿ƒï¼‰
     name: discovery
-#·şÎñÆ÷×¢²á·¢ÏÖÅäÖÃ
+#æœåŠ¡å™¨æ³¨å†Œå‘ç°é…ç½®
 eureka:
   instance:
-    #eurekaÊµÀıÃû³Æ
+    #eurekaå®ä¾‹åç§°
     hostname: localhost
   client:
-    #½ûÖ¹½«×Ô¼º×¢²áµ½Eureka-server(Ä¬ÈÏtrue£©
+    #ç¦æ­¢å°†è‡ªå·±æ³¨å†Œåˆ°Eureka-server(é»˜è®¤trueï¼‰
     register-with-eureka: false
-    #½ûÖ¹´ÓEureka-server»ñÈ¡×¢²áĞÅÏ¢£¨Ä¬ÈÏtrue)
+    #ç¦æ­¢ä»Eureka-serverè·å–æ³¨å†Œä¿¡æ¯ï¼ˆé»˜è®¤true)
     fetch-registry: false
     service-url:
-       #·şÎñ×¢²áÖĞĞÄµØÖ·£¬×¢²á·şÎñºÍ²éÑ¯·şÎñ¶¼ÒÀÀµÕâ¸öµØÖ·£¬Ä¬ÈÏµØÖ·£º[http://localhost:8761/eureka](http://localhost:8761/eureka) £¬¿ÉÒÔÅäÖÃ¶à¸öµØÖ·ÓÃ¶ººÅ·Ö¸ô
+       #æœåŠ¡æ³¨å†Œä¸­å¿ƒåœ°å€ï¼Œæ³¨å†ŒæœåŠ¡å’ŒæŸ¥è¯¢æœåŠ¡éƒ½ä¾èµ–è¿™ä¸ªåœ°å€ï¼Œé»˜è®¤åœ°å€ï¼š[http://localhost:8761/eureka](http://localhost:8761/eureka) ï¼Œå¯ä»¥é…ç½®å¤šä¸ªåœ°å€ç”¨é€—å·åˆ†éš”
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
-    #eureka¹Ø±Õ×ÔÎÒ±£»¤Ä£Ê½
+    #eurekaå…³é—­è‡ªæˆ‘ä¿æŠ¤æ¨¡å¼
     enable-self-preservation: false
