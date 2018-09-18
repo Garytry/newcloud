@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.garytry.provider.dao.AppDao" >
+    <resultMap id="BaseResultMap" type="com.garytry.provider.model.App" >
+        <id column="appid" property="appid" jdbcType="VARCHAR" />
+        <result column="clientid" property="clientid" jdbcType="VARCHAR" />
+        <result column="secret" property="secret" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="save" parameterType="com.garytry.provider.model.App" >
+        insert into SYS_APP values (
+           #{appid},
+           #{clientid},
+           #{secret}
+        )
+    </insert>
+
+</mapper>
