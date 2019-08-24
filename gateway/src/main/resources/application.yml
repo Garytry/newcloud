@@ -1,0 +1,87 @@
+#微服务网关地址
+csse.mircoservice.zuul: http://172.16.4.3:10005
+#数据库配置地址
+csse.dmdba.url: 172.16.4.3:5236
+#应用注册中心地址
+eurekaServiceUrl: 127.0.0.1:18761
+#应用网关地址
+appgatewayUrl: http://172.16.3.121:19999
+#应用分支
+appBranch: 
+  ifshow: true
+  value: JK,ZF,WXS
+
+server:
+  port: 19999
+
+spring:
+  application:
+    name: appgateway
+
+#单点登录配置
+csse:
+  mircoservice:
+    org: /api/org
+    oauth2:
+      client:
+        accessTokenUri: ${csse.mircoservice.zuul}/api/uaa/oauth/token
+        clientId: base.csse.microservice
+        clientSecret: a6760950-c394-4388-9feb-a4055dda3220
+
+druid:
+    dbType: dm
+    url: jdbc:dm://${csse.dmdba.url}/APP_GATEWAY
+    username: APP_GATEWAY    
+    password: password01
+    initial-size: 1
+    min-idle: 1
+    max-active: 10 
+    maxWait: 3000
+    test-on-borrow: true
+    testWhileIdle: true
+    validationQuery: select 1 from DUAL 
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    enabled: false
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eurekaServiceUrl}/eureka/
+zuul:
+  host:
+    max-per-route-connections: 1000
+    max-total-connections: 1000
+
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
+  MaxTotalHttpConnections: 5000
+  MaxHttpConnectionsPerHost: 5000
+  ActiveConnectionsLimit: 4000
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 20000000
+#zuul.eureka.default.semaphore.maxSemaphores: 30000
+zuul.semaphore.max-semaphores: 30000
+zuul.hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+
+zuul.hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests: 2000
+zuul.hystrix.command.default.fallback.isolation.semaphore.maxConcurrentRequests: 2000
+
+logging:
+  level:
+    root: info
+    #com: 
+     # css: debug
+

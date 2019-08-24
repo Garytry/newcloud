@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<title>配置管理说明文档</title>
+<!-- Bootstrap -->
+<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="config/css/help.css" rel="stylesheet">
+</head>
+
+<body>
+	<!--描述：导航栏-->
+	<nav class="navbar navbar-default navbar-static-top" id="vue_nav">
+		<!--描述：顶部-->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a href="index.html" class="navbar-brand">应用配置管理</a> <a
+				href="help.html" class="navbar-brand">说明文档</a>
+		</div>
+	</nav>
+	<!--描述：说明文档 -->
+	<div class="content">
+		<div class="row">
+			<div class="col-sm-12">
+				<!--描述：字段说明 -->
+				<div class="panel panel-default">
+					<div class="panel-heading">字段说明</div>
+					<div class="panel-body table-responsive">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">应用APP标识:</h4>
+								<p class="list-group-item-text">
+									<font>办公平台统一维护的应用标识,微服务,应用商店,办公桌面,办公应用之间通信的唯一标识<br />
+									<br /> 命名规则约束:<br /> 一包单应用：{包格式}.{开发者组织机构}.{应用名称}<br />
+										示例cpk.csse.txl<br />
+										一包多应用：{包格式}.{开发者组织机构}.{用户机构_镜像应用分组名称_应用编号_应用名称}<br />
+										示例cpk.csse.jskxybgs_zyyy_app1a_gwcl<br />
+									<br /> 文件服务特性约束:<br />
+										文件存储路径取appid中第一个"_"前的单词作为文件存储路径,没有"_"取appid作为文件存储路径路径 <br />
+										示例cpk.csse.txl文件存储路径为cpk.csse.txl 示例
+										cpk.csse.jskxybgs_zyyy_app1a_gwcl文件存储路径为jskxybgs
+									</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">APP的secret码:</h4>
+								<p class="list-group-item-text">
+									<font>与应用APP标识配对的应用秘钥,示例173AA021-E572-462b-B78A-AA3A55AC9AC2</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">应用类型:</h4>
+								<p class="list-group-item-text">
+									<font>办公应该分类:示例:公文处理-gwcl,会议管理-hygl</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">部门ID:</h4>
+								<p class="list-group-item-text">
+									<font>组织机构二级节点部门id</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">部门名称:</h4>
+								<p class="list-group-item-text">
+									<font> 组织机构二级节点部门名称</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">服务访问地址:</h4>
+								<p class="list-group-item-text">
+									<font>注册:在应用注册中心注册的服务名称<br />示例cpk.csse.jskxybgs_zyyy<br />
+									<br /> 未注册:办公应用的访问地址<br />示例http://127.0.0.1:12101
+									</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">文件存储的文件夹:</h4>
+								<p class="list-group-item-text">
+									<font>文件存储路径取appid中第一个"_"前的单词作为文件存储路径,没有"_"取appid作为文件存储路径路径<br />
+										示例cpk.csse.txl文件存储路径为cpk.csse.txl<br /> 示例
+										cpk.csse.jskxybgs_zyyy_app1a_gwcl文件存储路径为jskxybgs
+									</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">应用级别:</h4>
+								<p class="list-group-item-text">
+									<font>应用级别:JK(院级应用为0,部级应用为1,通用应用为2);ZF(部级应用为0,局级应用为1,通用应用为2);其他分支类似<br />
+										在同一分支中 应用级别为0和2的应用类型只有一个(如szbg,gwzb);应用级别为1的同一应用类型存在多个(如gwcl)
+									</font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">应用分支:</h4>
+								<p class="list-group-item-text">
+									<font>应用分支:因开发,测试环境存在多个用户分支设置,<strong style="color: red">现场环境不建议添加分支</strong></font>
+								</p>
+							</li>
+							<li class="list-group-item">
+								<h4 class="list-group-item-heading">配置项备注:</h4>
+								<p class="list-group-item-text">
+									<font>备注信息</font>
+								</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--描述：api接口说明 -->
+				<div class="panel panel-default">
+					<div class="panel-heading">api接口说明</div>
+					<div class="panel-body table-responsive">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<h5 class="list-group-item-heading">1.获取配置信息列表</h5>
+								<p class="list-group-item-text">请求方式:&nbsp;&nbsp;GET,POST</p>
+								<p class="list-group-item-text">请求地址:&nbsp;&nbsp;/{appBranch}/api/gateway/mapped/list</p>
+								<p class="list-group-item-text">参数说明:</p>
+								<table border="1" style="width: 88%">
+									<thead>
+										<tr>
+											<td>参数</td>
+											<td>类型</td>
+											<td>必须</td>
+											<td>说明</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>appBranch</td>
+											<td>string</td>
+											<td>否</td>
+											<td>应用分支:如JK,ZF,WXS,为空返回分支为空的配置信息,<strong style="color: red">一般将http://IP:port/{appBranch}作为其他应用的可配置参数</strong></td>
+										</tr>
+										<tr>
+											<td>appLevel</td>
+											<td>string</td>
+											<td>否</td>
+											<td>应用级别:JK(院级应用为0,部级应用为1,通用应用为2);ZF(部级应用为0,局级应用为1,通用应用为2);其他分支类似</td>
+										</tr>
+										<tr>
+											<td>orgId</td>
+											<td>string</td>
+											<td>否</td>
+											<td>组织机构二级部门ID;<strong style="color: red">appLevel为0时不需传参,appLevel为1时必须传参</strong></td>
+										</tr>
+										<tr>
+											<td>type</td>
+											<td>string</td>
+											<td>否</td>
+											<td>应用类型:如gwcl,dzbms</td>
+										</tr>
+										<tr>
+											<td>orgName</td>
+											<td>string</td>
+											<td>否</td>
+											<td>部门名称</td>
+										</tr>
+									</tbody>
+								</table>
+								<p class="list-group-item-text">示例:</p> <code>
+									请求地址:<br />
+									http://172.16.3.121:19999/JK/api/gateway/mapped/list?appLevel=1&orgId=7f894a47-45ad-45da-9945-eb2a54161ab8&type=gwcl
+									<br /> 返回结果: <br />[{"appBranch":"JK","appId":"legacycpk.csse.jskxybgs_zyyy_app1a_gwcl","appLevel":"1","appSecret":"173AA021-E572-462b-B78A-AA3A55AC9AC2","appType":"many","fileServer":"jskxybgs","gateway":"false","orgId":"7f894a47-45ad-45da-9945-eb2a54161ab8","orgName":"办公厅","remark":"公文处理送审到办公厅","type":"gwcl","url":"http://127.0.0.1:12101","webUri":"/app/gwcl"}]
+								</code>
+							</li>
+							<li class="list-group-item">
+								<h5 class="list-group-item-heading">2.根据appid获取配置信息列表</h5>
+								<p class="list-group-item-text">请求方式:&nbsp;&nbsp;GET,POST</p>
+								<p class="list-group-item-text">请求地址:&nbsp;&nbsp;/{appBranch}/api/gateway/mapped/appids/{appids}</p>
+								<p class="list-group-item-text">参数说明:</p>
+								<table border="1" style="width: 75%">
+									<thead>
+										<tr>
+											<td>参数</td>
+											<td>类型</td>
+											<td>必须</td>
+											<td>说明</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>appBranch</td>
+											<td>string</td>
+											<td>否</td>
+											<td>应用分支:如JK,ZF,WXS,为空返回分支为空的配置信息</td>
+										</tr>
+										<tr>
+											<td>appids</td>
+											<td>string</td>
+											<td>是</td>
+											<td>多个appid用","分隔,参数值为all返回所有配置信息列表</td>
+										</tr>
+									</tbody>
+								</table>
+								<p class="list-group-item-text">示例:</p> <code>
+									请求地址:<br />http://172.16.3.121:19999/JK/api/gateway/mapped/appids/legacycpk.csse.jskxykyb_zyyy_app2b_dzbms,legacycpk.csse.jskxykyb_zyyy_app3c_szdas<br />
+									返回结果: <br />[{"appBranch":"JK","appId":"legacycpk.csse.jskxykyb_zyyy_app2b_dzbms","appLevel":"1","appSecret":"AC9032E3-3130-49a7-BB76-6D9107F0DD3E","appType":"many","fileServer":"jskxykyb","gateway":"false","orgId":"e979b029-22f2-4c7c-a9cc-893d5fafabfe","orgName":"综合计划局1234","remark":"综合计划局电子保密室，该数据的appID和type列的数据不能修改；","type":"dzbms","url":"http://127.0.0.1:12101","webUri":"/app/dzbms"},{"appBranch":"JK","appId":"legacycpk.csse.jskxykyb_zyyy_app3c_szdas","appLevel":"1","appSecret":"280308C7-5BEC-4022-8097-61CC2B27EB73","appType":"many","fileServer":"jskxykyb","gateway":"false","orgId":"e979b029-22f2-4c7c-a9cc-893d5fafabfe","orgName":"科研部","remark":"综合计划局数字档案室，该数据的appID和type列的数据不能修改；","type":"szdas","url":"http://127.0.0.1:12101","webUri":"/app/szdas"}]
+								</code>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">配置文件说明</div>
+					<div class="panel-body table-responsive">
+						<code>
+							#微服务网关地址 <br /> csse.mircoservice.zuul:
+							http://172.16.201.6:10005 <br /> #数据库配置地址 <br />
+							csse.dmdba.url: 127.0.0.1:5236 <br /> #应用注册中心地址<br />
+							eurekaServiceUrl: 127.0.0.1:18761 <br /> #应用网关地址<br />
+							appgatewayUrl: http://172.16.3.121:19999 <br />#应用分支<br />
+							appBranch: <br /> &nbsp;&nbsp;&nbsp;&nbsp;ifshow: true<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;value: JK,ZF,WXS
+						</code>
+						<p>应用注册中心地址: 云版：appdiscovery.appservice.marathon.mesos:18761
+							物理：127.0.0.1:18761</p>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">缓存</div>
+					<div class="panel-body table-responsive">
+						<p><code>
+							缓存配置信息key类型(查看后台日志时根据key类型查看返回数据是否对应) <br /> 
+							appLevel + ":" + type + ":" + orgId + ":" + orgName<br /> 
+							appBranch + ":" + appLevel + ":" + type + ":" + orgId + ":" + orgName <br />
+							appids <br />
+							appBranch+":"+appids <br />
+						</code>
+						</p>
+						<p><code>
+						        清除缓存:<br /> 
+						        点击页面"清除应用配置缓存"按钮<br /> 
+							清除缓存路径:/config/clearcache示例:http://localhost:19999/config/clearcache
+						</code>
+						</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>

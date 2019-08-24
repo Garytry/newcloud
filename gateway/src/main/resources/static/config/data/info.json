@@ -1,0 +1,13 @@
+{
+	"appId": "legacycpk.csse.jskxy_zyyy_app1a_dzbms",
+	"appLevel": "1",
+	"appSecret": "789B51F5-08C1-4083-B12A-2A3FE482A7CA",
+	"appType": "many",
+	"fileServer": "jskxy",
+	"gateway": "true",
+	"orgId": "7f894a47-45ad-45da-9945-eb2a54161ab8",
+	"orgName": "办公厅",
+	"remark": "院电子保密室",
+	"type": "dzbms",
+	"url": "legacycpk.csse.jskxy_zyyy_app1a_dzbms"
+}

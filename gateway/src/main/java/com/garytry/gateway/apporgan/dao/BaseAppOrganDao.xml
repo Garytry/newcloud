@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garytry.gateway.apporgan.dao.BaseAppOrganDao">
+
+	<select id="queryObject" resultType="com.garytry.gateway.apporgan.entity.BaseAppOrgan">
+		select * from BASE_APP_ORGAN
+		where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.garytry.gateway.apporgan.entity.BaseAppOrgan">
+		select * from BASE_APP_ORGAN
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.garytry.gateway.apporgan.entity.BaseAppOrgan">
+		insert into BASE_APP_ORGAN
+		(
+		"ID",
+		"TREE_PATH",
+		"ISDELETE",
+		"NAME",
+		"TIMESTAMP",
+		"SORT",
+		"TYPE",
+		"CODE",
+		"PARENT_ID",
+		"DEPT_OFFICER"
+		)
+		values
+		(
+		#{id},
+		#{treePath},
+		#{isdelete},
+		#{name},
+		#{timestamp},
+		#{sort},
+		#{type},
+		#{code},
+		#{parentId},
+		#{deptOfficer}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>app配置管理</title>
+		<!-- Bootstrap -->
+		<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="assets/bootstrap-table/css/bootstrap-table.css" rel="stylesheet">
+		<link href="assets/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+		<link href="assets/bootstrap-validator/css/bootstrapValidator.css" rel="stylesheet">
+		<link href="config/css/config.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-10-07
+        	描述：导航栏
+        -->
+		<nav class="navbar navbar-default navbar-static-top" id="vue_nav">
+			<!--
+            	作者：offline
+            	时间：2018-10-07
+            	描述：顶部
+            -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+				<a href="index.html" class="navbar-brand">应用配置管理</a>
+				<a href="help.html" class="navbar-brand">说明文档</a>
+			</div>
+			<!--
+        	作者：offline
+        	时间：2018-10-07
+        	描述：侧边功能栏
+            -->
+			<div class="navbar-default navbar-collapse slider_sub">
+
+				<ul class="nav">
+					<li>
+						<!--同步组织机构-->
+						<div class="input-group mysearch">
+							<span class="input-group-btn">
+	                            <button v-on:click="syncOrganData" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-placement="top">
+								   <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>同步组织机构
+							    </button>
+							    <button style="margin-left: 2%" v-on:click="clearConfigCache" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-placement="top">
+								   <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>清空应用配置缓存
+							    </button>
+						    </span>
+						</div>
+					</li>
+					<li>
+						<!--搜索-->
+						<div class="input-group mysearch">
+							<input id="searchValue" type="text" class="form-control" /> 
+							<span class="input-group-btn">
+							   <button v-on:click="searchValue()" type="button" class="btn btn-default">
+								   <span class="glyphicon glyphicon-search"></span>
+							   </button>
+							</span>
+						</div>
+					</li>
+					<li v-if="appBranch.ifshow">
+					    <!--应用分支-->
+					    <div class="input-group">
+						  <span class="input-group-addon">应用分支</span>
+						  <select id="appBranchValue"  class="form-control" v-on:change="refreshTable">
+							    <option value="">请选择</option>
+								<option v-for="branchValue in appBranch.value" v-bind:value="branchValue">{{branchValue}}</option>
+						  </select>
+						</div>
+					</li>
+					
+					<li v-for="(menuData, index) in menuDatas">
+						<a v-bind:href="'#sub'+index" v-on:click="getTableData(menuData.appLevel,null)" data-toggle="collapse">{{menuData.LevelName}}<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+						<ul v-bind:id="'sub'+index" class="nav collapse">
+							<li v-for="org in menuData.orgs">
+								<a v-on:click="getTableData(menuData.appLevel,org.orgId)"> <span class="glyphicon glyphicon-th-large"></span> &nbsp;{{org.orgName}}
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="content" id="vue_content">
+			<div class="row pull-left seftbtn">
+				<button v-on:click="addFromData" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-placement="top">
+				   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+			    </button>
+				<button v-on:click="editFromData" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-placement="top">
+				    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+			    </button>
+				<button v-on:click="deleteData" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-placement="top">
+				    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+			    </button>
+			</div>
+			<div class="row">
+				<table class="table table-bordered table-striped table-hover" id="vue_table">
+				</table>
+			</div>
+			<div class="modal fade" id="add_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title custom_align" id="Heading">编辑信息</h4>
+						</div>
+						<div class="modal-body">
+							<form role="form" id="dataFrom" class="form-horizontal">
+								<div class="form-group">
+									<label for="appId" class="col-sm-3 control-label">应用APP标识</label>
+									<div class="col-sm-9">
+										<input id="appId" name="appId" v-model="newFromData.appId" v-on:input="inputFunction" type="text" class="form-control" placeholder="ckp.csse......">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="appSecret" class="col-sm-3 control-label">APP的secret码</label>
+									<div class="col-sm-9">
+										<input id="appSecret" name="appSecret" v-model="newFromData.appSecret" type="text" class="form-control" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="type" class="col-sm-3 control-label">应用类型</label>
+									<div class="col-sm-9">
+										<select id="type" name="type" v-model="newFromData.type" v-on:change="inputFunction" class="form-control selectpicker col-sm-9" data-live-search="true">
+										    <option value="">请选择</option>
+											<optgroup label="一包单应用">
+												<option v-for="typeData in typeDatas.one" v-bind:value="'one:'+typeData">{{typeData}}</option>
+											</optgroup>
+											<optgroup label="一包多应用">
+												<option v-for="typeData in typeDatas.many" v-bind:value="'many:'+typeData">{{typeData}}</option>
+											</optgroup>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="appLevel" class="col-sm-3 control-label">应用级别</label>
+									<div class="col-sm-9">
+										<select id="appLevel" v-model="newFromData.appLevel" v-on:change="organinputFunction" class="form-control selectpicker col-sm-9">
+										    <option value="">请选择</option>
+											<option v-for="menuData in menuDatas" v-bind:value="menuData.appLevel">{{menuData.LevelName}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="orgId" class="col-sm-3 control-label">部门名称</label>
+									<select id="orgId"  v-model="newFromData.orgId" class="form-control selectpicker orgName col-sm-9" style="padding-left: 3%" data-live-search="true">
+									    <option value="">请选择</option>
+										<option v-for="org in orgDatas.orgs" v-bind:value="org.orgId">{{org.orgName}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="gateway" class="col-sm-3 control-label">是否注册服务</label>
+									<div style="margin-left: 4%" class="col-sm-9">
+										<label class="radio-inline">
+										  <input type="radio" name="gateway" id="gatewaytrue" value="true" checked="checked" v-on:click="gatewayFunction"> 是
+										</label>
+										<label class="radio-inline">
+										  <input type="radio" name="gateway" id="gatewayfalse" value="false"  v-on:click="gatewayFunction"> 否
+										</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="url" class="col-sm-3 control-label">服务访问地址</label>
+									<div class="col-sm-9">
+										<!-- <span class="input-group-addon" id="basic-addon1">http://</span> -->
+										<input id="url" name="url" v-model="newFromData.url" type="text" class="form-control" placeholder="" aria-describedby="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="fileServer" class="col-sm-3 control-label">文件服务存储目录</label>
+									<div class="col-sm-9">
+										<input id="fileServer" v-model="newFromData.fileServer" type="text" class="form-control" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="remark" class="col-sm-3 control-label">配置项备注</label>
+									<div class="col-sm-9">
+										<input id="remark" v-model="newFromData.remark" type="text" class="form-control" placeholder="">
+									</div>
+								</div>
+								<div class="form-group" v-if="appBranch.ifshow">
+									<label for="appBranch" class="col-sm-3 control-label">应用分支</label>
+									<div class="col-sm-9">
+										<select id="appBranch" v-model="newFromData.appBranch" class="form-control selectpicker col-sm-9">
+										    <option value="">请选择</option>
+											<option v-for="branchValue in appBranch.value" v-bind:value="branchValue">{{branchValue}}</option>
+										</select>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer ">
+							<button type="button" id="saveFromData" v-on:click="saveFromData" class="btn btn-success">
+							<span class="glyphicon glyphicon-ok-sign"></span> 保存
+						</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<div class="modal fade" id="btn_delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title custom_align" id="Heading5">友情提示</h4>
+						</div>
+						<div class="modal-body">
+							<div class="alert alert-info">
+								<span class="glyphicon glyphicon-info-sign"></span>&nbsp; 确认要删除选中的记录吗 ?
+							</div>
+						</div>
+						<div class="modal-footer ">
+							<button v-on:click="sureDeleteData" type="button" class="btn btn-danger" data-dismiss="modal">
+							<span class="glyphicon glyphicon-ok-sign"></span> 确认
+						</button>
+							<button v-on:click="quitDeleteData" type="button" class="btn btn-success" data-dismiss="modal">
+							<span class="glyphicon glyphicon-remove"></span> 取消
+						</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+		</div>
+
+		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+		<script src="assets/vue/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+		<script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+		<script src="assets/bootstrap-table/js/bootstrap-table.js" type="text/javascript"></script>
+		<script src="assets/bootstrap-table/js/locale/bootstrap-table-zh-CN.js" type="text/javascript"></script>
+		<script src="assets/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+		<script src="assets/bootstrap-select/js/i18n/defaults-zh_CN.js" type="text/javascript"></script>
+		<script src="assets/bootstrap-validator/js/bootstrapValidator.js" type="text/javascript"></script>
+		<script src="assets/vue/js/vue.js" type="text/javascript"></script>
+		<script src="assets/vue/js/axios.js" type="text/javascript"></script>
+		<script src="config/js/selftable.js" type="text/javascript"></script>
+		<script src="config/js/index.js" type="text/javascript"></script>
+		<script>
+			jQuery(document).ready(function() {
+				pageModule.initControl();
+			});
+		</script>
+	</body>
+
+</html>
