@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql version="0.0.0.0">
+	<create tableName="BASE_APP_LEVEL">
+		CREATE TABLE BASE_APP_LEVEL
+		(
+		"APP_LEVEL" INTEGER,
+		"APP_LEVEL_NAME" VARCHAR2(50),
+		"PARENT_ID" VARCHAR2(50),
+		"DELETE_FLAG" VARCHAR2(50),
+		"SORT" INTEGER,
+		"APP_LEVEL_ID" VARCHAR2(50)) STORAGE(ON "MAIN", CLUSTERBTR) ;
+	</create>
+	<comment tableName="BASE_APP_LEVEL">
+		COMMENT ON TABLE BASE_APP_LEVEL IS '应用分类级别';
+        COMMENT ON COLUMN BASE_APP_LEVEL."APP_LEVEL" IS 'app应用分类级别';
+        COMMENT ON COLUMN BASE_APP_LEVEL."APP_LEVEL_NAME" IS 'app应用分类级别名称';
+	</comment>
+	<create tableName="BASE_APP_ORG_MAPPED">
+		CREATE TABLE BASE_APP_ORG_MAPPED
+		(
+		"APP_ID" VARCHAR(50),
+		"APP_SECRET" VARCHAR(255),
+		"TYPE" VARCHAR(255),
+		"APP_TYPE" VARCHAR(50) DEFAULT 'many',
+		"WEB_URI" VARCHAR(255),
+		"ORG_ID" VARCHAR(50),
+		"ORG_NAME" VARCHAR(255),
+		"URL" VARCHAR(500),
+		"FILE_SERVER" VARCHAR(255),
+		"APP_LEVEL" INTEGER,
+		"GATEWAY" VARCHAR(50) DEFAULT 'false',
+		"REMARK" VARCHAR(5000),
+		"APP_BRANCH" VARCHAR(50)) STORAGE(ON "MAIN", CLUSTERBTR) ;
+	</create>
+	<comment tableName="BASE_APP_ORG_MAPPED">
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."APP_BRANCH" IS '应用分支（未开发测试环境添加字段)';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."APP_ID" IS '应用APP标识';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."APP_LEVEL" IS '应用的级别：0代表部级应用；1代表局级应用；2代表通用应用';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."APP_SECRET" IS 'APP的secret码';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."APP_TYPE" IS '应用类型分类(one:一包但应用,many:一包多应用)';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."FILE_SERVER" IS '文件在文件服务下存储的目录';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."GATEWAY" IS '是否走网关';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."ORG_ID" IS '部门ID 如各局级单位ID';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."ORG_NAME" IS '部门名称 如各局级单位';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."REMARK" IS '配置项备注，在新增时一定要备注清楚';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."TYPE" IS '应用类型';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."URL" IS '要获取的URL,APP的访问地址';
+		COMMENT ON COLUMN BASE_APP_ORG_MAPPED."WEB_URI" IS '域名下URI的配置；';
+	</comment>
+	<create tableName="BASE_APP_ORGAN">
+		CREATE TABLE BASE_APP_ORGAN
+		(
+		"ID" VARCHAR(50) NOT NULL,
+		"NAME" VARCHAR(200),
+		"PARENT_ID" VARCHAR(50),
+		"TREE_PATH" VARCHAR(200),
+		"SORT" INTEGER,
+		"ISDELETE" INTEGER,
+		"CODE" VARCHAR(36),
+		"TIMESTAMP" BIGINT,
+		"TYPE" INTEGER,
+		"DEPT_OFFICER" INTEGER,
+		NOT CLUSTER PRIMARY KEY("ID")) STORAGE(ON "MAIN", CLUSTERBTR) ;
+	</create>
+	<create tableName="BASE_APP_TYPE">
+		CREATE TABLE BASE_APP_TYPE
+		(
+		"TYPE" VARCHAR2(50) NOT NULL,
+		"APP_FLAG" VARCHAR2(50),
+		"WEB_URI" VARCHAR(50),
+		"SORT" INTEGER,
+		"REMARK" VARCHAR2(1000),
+		NOT CLUSTER PRIMARY KEY("TYPE")) STORAGE(ON "MAIN", CLUSTERBTR) ;
+	</create>
+	<comment tableName="BASE_APP_TYPE">
+		COMMENT ON TABLE BASE_APP_TYPE IS '应用类型';
+		COMMENT ON COLUMN BASE_APP_TYPE."APP_FLAG" IS 'one:一包单应用，many:一包多应用';
+		COMMENT ON COLUMN BASE_APP_TYPE."REMARK" IS '备注';
+		COMMENT ON COLUMN BASE_APP_TYPE."SORT" IS '排序';
+		COMMENT ON COLUMN BASE_APP_TYPE."TYPE" IS '应用类型标识';
+		COMMENT ON COLUMN BASE_APP_TYPE."WEB_URI" IS '域名下URI的配置；';
+	</comment>
+	<insert tableName="BASE_APP_LEVEL">
+		insert into BASE_APP_LEVEL ("APP_LEVEL","APP_LEVEL_NAME","PARENT_ID","DELETE_FLAG","SORT","APP_LEVEL_ID") values (0, '院级应用', null, null, null, null);
+        insert into BASE_APP_LEVEL ("APP_LEVEL","APP_LEVEL_NAME","PARENT_ID","DELETE_FLAG","SORT","APP_LEVEL_ID") values (1, '部级应用', null, null, null, null);
+        insert into BASE_APP_LEVEL ("APP_LEVEL","APP_LEVEL_NAME","PARENT_ID","DELETE_FLAG","SORT","APP_LEVEL_ID") values (2, '通用应用', null, null, null, null);
+	</insert>
+	<insert tableName="BASE_APP_TYPE">
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('gwcl', 'many', '/app/gwcl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('dzbms', 'many', '/app/dzbms', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('szdas', 'many', '/app/szdas', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('szbg', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('szbgmsb', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('gwzb', 'one', '/app/zhms', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('dzsfs', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('txl', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('yfgl', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('bwl', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('yjfk', 'one', 'app/yjfk', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('zbgl', 'many', '/app/zbgl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('rwgl', 'many', '/app/rwgl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('qxjgl', 'many', '/app/qxjgl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('hysq', 'many', '/app/hygl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('hygl', 'many', '/app/hygl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('clsq', 'many', '/app/clsq', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('clgl', 'many', '/app/clgl', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('ccsq', 'many', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('jbsx', 'many', '/app/jbsx', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('zdaqsgbg', 'many', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('zwqk', 'many', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('yzgzap', 'many', '/app/yzgzap', null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('out', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('pzl', 'one', null, null, null);
+		insert into BASE_APP_TYPE ("TYPE","APP_FLAG","WEB_URI","SORT","REMARK") values ('transfer', 'one', null, null, null);
+	</insert>
+	
+	
+	
+</sql>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.apporgmapped.dao.BaseAppOrgMappedDao">
+
+	<select id="queryObject" resultType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		select * from
+		BASE_APP_ORG_MAPPED where APP_ID = #{value}
+	</select>
+	
+	<select id="queryListByAppids" resultType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		select * from BASE_APP_ORG_MAPPED where 1=1
+		<if test="appBranch != null and appBranch != ''">
+			and APP_BRANCH = #{appBranch}
+		</if>
+		<if test="appids != null and appids != ''">
+		    and APP_ID in
+			<foreach item="appId" collection="appidsAddr" open="(" separator=","
+			close=")">
+			#{appId}
+		</foreach>
+		</if>
+	</select>
+
+	<select id="queryList" resultType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		select * from BASE_APP_ORG_MAPPED where 1=1
+		<if test="appLevel != null and appLevel != ''">
+			and APP_LEVEL = #{appLevel}
+		</if>
+		<if test="type != null and type != ''">
+			and TYPE = #{type}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and ORG_ID = #{orgId}
+		</if>
+		<if test="orgName != null and orgName != ''">
+			and ORG_NAME = #{orgName}
+		</if>
+		<if test="appBranch != null and appBranch != ''">
+			and APP_BRANCH = #{appBranch}
+		</if>
+		<if test="searchValue != null and searchValue != ''">
+			and (APP_ID like #{searchValue} or APP_SECRET like
+			#{searchValue} or TYPE like #{searchValue}
+			or ORG_NAME like
+			#{searchValue} or ORG_ID like #{searchValue} or URL
+			like
+			#{searchValue}
+			or FILE_SERVER like #{searchValue} or APP_LEVEL like
+			#{searchValue}
+			)
+		</if>
+		order by APP_LEVEL,APP_ID
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="queryTotal" resultType="int">
+		select count(*) from BASE_APP_ORG_MAPPED where 1=1
+		<if test="appLevel != null and appLevel != ''">
+			and APP_LEVEL = #{appLevel}
+		</if>
+		<if test="type != null and type != ''">
+			and TYPE = #{type}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and ORG_ID = #{orgId}
+		</if>
+		<if test="orgName != null and orgName != ''">
+			and ORG_NAME = #{orgName}
+		</if>
+		<if test="appBranch != null and appBranch != ''">
+			and APP_BRANCH = #{appBranch}
+		</if>
+		<if test="searchValue != null and searchValue != ''">
+			and (APP_ID like #{searchValue} or APP_SECRET like
+			#{searchValue} or TYPE like #{searchValue}
+			or ORG_NAME like
+			#{searchValue} or ORG_ID like #{searchValue} or URL
+			like
+			#{searchValue}
+			or FILE_SERVER like #{searchValue} or APP_LEVEL like
+			#{searchValue}
+			)
+		</if>
+	</select>
+	
+	<select id="queryUrlList" resultType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		select URL,GATEWAY from BASE_APP_ORG_MAPPED group by URL,GATEWAY
+	</select>
+
+	<insert id="save" parameterType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		insert into BASE_APP_ORG_MAPPED
+		(
+		"APP_ID",
+		"APP_SECRET",
+		"TYPE",
+		"APP_TYPE",
+		"WEB_URI",
+		"ORG_ID",
+		"ORG_NAME",
+		"URL",
+		"FILE_SERVER",
+		"APP_LEVEL",
+		"GATEWAY",
+		"APP_BRANCH",
+		"REMARK"
+		)
+		values
+		(
+		#{appId},
+		#{appSecret},
+		#{type},
+		#{appType},
+		#{webUri},
+		#{orgId},
+		#{orgName},
+		#{url},
+		#{fileServer},
+		#{appLevel},
+		#{gateway},
+		#{appBranch},
+		#{remark}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.css.apporgmapped.entity.BaseAppOrgMapped">
+		update BASE_APP_ORG_MAPPED
+		<set>
+			<if test="appSecret != null">"APP_SECRET" = #{appSecret},</if>
+			<if test="type != null">"TYPE" = #{type}, </if>
+			<if test="appType != null">"APP_TYPE" = #{appType}, </if>
+			<if test="webUri != null">"WEB_URI" = #{webUri}, </if>
+			<if test="orgId != null">"ORG_ID" = #{orgId}, </if>
+			<if test="orgName != null">"ORG_NAME" = #{orgName}, </if>
+			<if test="url != null">"URL" = #{url}, </if>
+			<if test="fileServer != null">"FILE_SERVER" = #{fileServer}, </if>
+			<if test="appLevel != null">"APP_LEVEL" = #{appLevel}, </if>
+			<if test="gateway != null">"GATEWAY" = #{gateway}, </if>
+			<if test="appBranch != null">"APP_BRANCH" = #{appBranch}, </if>
+			<if test="remark != null">"REMARK" = #{remark}</if>
+		</set>
+		where APP_ID = #{appId}
+	</update>
+
+	<delete id="delete">
+		delete from BASE_APP_ORG_MAPPED where APP_ID =
+		#{value}
+	</delete>
+
+	<delete id="deleteBatch">
+		delete from BASE_APP_ORG_MAPPED where APP_ID in
+		<foreach item="appId" collection="array" open="(" separator=","
+			close=")">
+			#{appId}
+		</foreach>
+	</delete>
+</mapper>

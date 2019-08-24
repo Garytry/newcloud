@@ -1,0 +1,52 @@
+[
+	{
+		"LevelName": "部级应用",
+		"appLevel": "0"
+	},
+	{
+		"LevelName": "局级应用",
+		"appLevel": "1",
+		"orgs": [
+			{
+				"orgName": "网信所",
+				"orgId": "943E3F0F763CC76D8DE0B3E3B82AE7B5"
+			},
+			{
+				"orgName": "部首长",
+				"orgId": "a29211c1-211f-4c2a-8747-1905055ec6d0"
+			},
+			{
+				"orgName": "办公厅",
+				"orgId": "7f894a47-45ad-45da-9945-eb2a54161ab8"
+			},
+			{
+				"orgName": "综合计划局一二三四一二三四一二三四一二三四一二三四",
+				"orgId": "e979b029-22f2-4c7c-a9cc-893d5fafabfe"
+			},
+			{
+				"orgName": "试验鉴定局",
+				"orgId": "b44f5fb9-c976-40f4-bcda-e4deb4c93a9c"
+			},
+			{
+				"orgName": "信息系统局",
+				"orgId": "eb4136c7-1989-4077-a09e-bcac16c7b6bf"
+			},
+			{
+				"orgName": "办公室",
+				"orgId": "f6c36eec-740b-4707-af4d-898a3c76d32e"
+			},
+			{
+				"orgName": "北京分行",
+				"orgId": "2a603247-df91-4b8d-92d4-9ff4da673c83"
+			}
+		]
+	},
+	{
+		"LevelName": "通用应用",
+		"appLevel": "2"
+	},
+	{
+		"LevelName": "其他应用",
+		"appLevel": "3"
+	}
+]
